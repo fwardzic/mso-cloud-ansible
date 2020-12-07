@@ -1,0 +1,34 @@
+---
+aws_region: 'us-east-1'
+tgw: 'TGW infra'
+vrf: 'vrf-mqtt'
+cidr: '10.56.236.0/26'
+subnet_list:
+  - { subnet: '10.56.236.0/27', zone: 'us-east-1a' }
+  - { subnet: '10.56.236.32/27', zone: 'us-east-1b' }
+anp_1: 'MQTT_ap'
+epg_1: 'MQTT_epg'
+contracts_epg_attachment:
+  - contract: 'sql'
+    anp: 'MQTT_ap'
+    epg: 'MQTT_epg'
+    direction: 'consumer'
+  - contract: 'internet_access'
+    anp: 'MQTT_ap'
+    epg: 'MQTT_epg'
+    direction: 'consumer'
+  - contract: 'management'
+    anp: 'MQTT_ap'
+    epg: 'MQTT_epg'
+    direction: 'provider'
+contracts_igw_attachment:
+  - contract: 'sql'
+    external_epg: 'mqtt_igw'
+    direction: 'consumer'
+  - contract: 'internet_access'
+    external_epg: 'mqtt_igw'
+    direction: 'provider'
+  - contract: 'management'
+    external_epg: 'mqtt_igw'
+    direction: 'consumer'
+igw_1: 'mqtt_igw'

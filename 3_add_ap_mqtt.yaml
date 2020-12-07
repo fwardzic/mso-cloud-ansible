@@ -1,0 +1,193 @@
+---
+
+- name: add Application Profile and EPG
+  hosts: mso
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - vars/mso-aws-mqtt.yaml
+    - vars/mso-schema-templates.yaml
+    - vars/mso-aws-stretched.yaml
+
+  tasks:
+    - name: Set vars
+      set_fact: 
+        mso_info: &mso_info
+          host: '{{ host }}'
+          username: '{{ username }}'
+          password: '{{ password }}'
+          login_domain: "{{ login_domain }}"
+          validate_certs: no
+
+    - name: WORKAROUND remove site from Template (only valid for new templates !!)
+      cisco.mso.mso_schema_site:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        site: "{{ site_aws }}"
+        template: "{{ template_aws_1 }}"
+        state: absent
+      delegate_to: localhost
+
+    - name: Add a new VRF
+      cisco.mso.mso_schema_template_vrf:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        vrf: "{{ vrf }}"
+        state: present
+      delegate_to: localhost
+
+    - name: Add CIDR to VRF
+      cisco.mso.mso_schema_site_vrf_region_cidr:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        vrf: "{{ vrf }}"
+        state: present 
+        site: "{{ site_aws }}"
+        region: "{{ aws_region }}"
+        cidr: "{{ cidr }}"
+        primary: true
+      delegate_to: localhost
+    
+    - name: Add a Subnets to VPC
+      cisco.mso.mso_schema_site_vrf_region_cidr_subnet:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        site: "{{ site_aws }}"
+        vrf: "{{ vrf }}"
+        region: "{{ aws_region }}"
+        cidr: "{{ cidr }}"
+        subnet: "{{ item.subnet }}"
+        zone: "{{ item.zone }}"
+        vgw: 'yes'
+        state: present
+      loop: "{{ subnet_list }}"
+      delegate_to: localhost
+
+    - name: Add hub network to the VPC
+      cisco.mso.mso_schema_site_vrf_region_hub_network:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        site: "{{ site_aws }}"
+        vrf: "{{ vrf }}"
+        region: "{{ aws_region }}"
+        hub_network:
+            name: "{{ tgw }}"
+            tenant: "{{ tenant }}"
+        state: present
+      delegate_to: localhost
+
+    - name: Add a Application Profile
+      cisco.mso.mso_schema_template_anp:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        anp: "{{ anp_1 }}"
+        state: present
+      delegate_to: localhost
+
+    - name: Add a EPG
+      cisco.mso.mso_schema_template_anp_epg:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        anp: "{{ anp_1 }}"
+        epg: "{{ epg_1 }}"
+        vrf:
+          name: "{{ vrf }}"
+        state: present
+      delegate_to: localhost
+    
+    - name: Add a selector to EPG
+      cisco.mso.mso_schema_site_anp_epg_selector:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        anp: "{{ anp_1 }}"
+        site: "{{ site_aws }}"
+        epg: "{{ epg_1 }}"
+        selector: epg_sel
+        expressions:
+        - type: epg
+          operator: equals
+          value: "{{ epg_1 }}"
+        state: present
+      delegate_to: localhost
+    
+    - name: Add L3out
+      cisco.mso.mso_schema_template_l3out:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        l3out: dummy-l3out
+        vrf:
+          name: "{{ vrf }}"
+          template: "{{ template_aws_1 }}"
+        state: present
+      delegate_to: localhost
+
+    - name: Add a selector external EPG (IGW)
+      cisco.mso.mso_schema_site_external_epg_selector:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        site: "{{ site_aws }}"
+        external_epg: "{{ igw_1 }}"
+        selector: internet
+        expressions:
+          - type: ip_address
+            operator: equals
+            value: 0.0.0.0/0
+        state: present
+      delegate_to: localhost
+
+    - name: Add a new external EPG (IGW)
+      cisco.mso.mso_schema_template_external_epg:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        external_epg: "{{ igw_1 }}"
+        vrf: 
+          name: "{{ vrf }}"
+          template: "{{ template_aws_1 }}"
+        anp:
+          name: "{{ anp_1 }}"
+          template: "{{ template_aws_1 }}"
+        l3out:
+          name: dummy-l3out
+          template: "{{ template_aws_1 }}"
+        state: present
+      delegate_to: localhost
+    
+    - name: Attach contracts to EPG
+      cisco.mso.mso_schema_template_anp_epg_contract:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        anp: "{{ item.anp }}"
+        epg: "{{ item.epg }}"
+        contract:
+          name: "{{ item.contract }}"
+          type: "{{ item.direction }}"
+          template: "{{ template_stretched }}"
+        state: present
+      loop: "{{ contracts_epg_attachment }}"
+      delegate_to: localhost
+
+    - name: Attach contracts to IGW
+      cisco.mso.mso_schema_template_external_epg_contract:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        external_epg: "{{ item.external_epg }}"
+        contract:
+          name: "{{ item.contract }}"
+          type: "{{ item.direction }}"
+          template: "{{ template_stretched }}"
+        state: present
+      loop: "{{ contracts_igw_attachment }}"
+      delegate_to: localhost

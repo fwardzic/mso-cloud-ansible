@@ -1,0 +1,44 @@
+---
+
+- name: Deploy template to APICś
+  hosts: mso
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - vars/mso-schema-templates.yaml
+
+  tasks:
+    - name: Set vars
+      set_fact: 
+        mso_info: &mso_info
+          host: '{{ host }}'
+          username: '{{ username }}'
+          password: '{{ password }}'
+          login_domain: "{{ login_domain }}"
+          validate_certs: no
+
+    - name: Deploy a schema template
+      cisco.mso.mso_schema_template_deploy:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_stretched }}"
+        state: deploy
+      delegate_to: localhost
+
+    - name: Deploy a schema template
+      cisco.mso.mso_schema_template_deploy:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_1 }}"
+        state: deploy
+      delegate_to: localhost
+    
+    - name: Deploy a schema template
+      cisco.mso.mso_schema_template_deploy:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_2 }}"
+        state: deploy
+      delegate_to: localhost
+

@@ -1,0 +1,22 @@
+---
+username: fwardzic
+password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          38626164373838396537316535663834656564656465393765376239333032363737366362623637
+          3863653230623837613234323764393562363834636437640a316439316132646364633930346332
+          33393762336264313162623463666533333061636434646164303661643965363263633237333531
+          6532343362633131610a336164383162333431636333623836306461356235303664383639363135
+          3035
+login_domain: dmzrad
+protocol: https
+validate_certs: no
+host: dmzmso
+tenant: fwardzic-1
+schema: fwardzic-3
+template_stretched: stretched
+template_aws_1: aws-only-mqtt
+template_aws_2: aws-only-front
+template_onprem: fab7-only
+sites: [ "DMZ-RCDN-Fabric7", "Aws-Site-2"]
+site_aws: AWS-Site-2
+site_onprem: DMZ-RCDN-Fabric7

@@ -1,0 +1,5 @@
+*.retry
+vaultPass
+key/fwardzic-ec2.pem
+vars/ec2-front.yaml
+vars/ec2-mqtt.yaml

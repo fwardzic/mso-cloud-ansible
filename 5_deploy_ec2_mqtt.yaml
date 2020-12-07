@@ -1,0 +1,48 @@
+---
+- name: deploy MQTT ec2 instance
+  hosts: localhost
+  connection: local
+
+  vars_files:
+    - vars/mso-aws-mqtt.yaml
+    - vars/ec2-mqtt.yaml
+
+  tasks:
+    - name: Set vars
+      set_fact: 
+        mso_info: &aws_info
+          aws_access_key: "{{ access_id }}"
+          aws_secret_key: "{{ access_key }}"
+          region: "{{ aws_region }}"
+
+    - name: Obtain default VPC information
+      ec2_vpc_net_info:
+        <<: *aws_info
+        filters:
+          "cidr": "{{ cidr }}"
+      register: vpc
+    
+    - name: Obtain subnets for default VPC
+      ec2_vpc_subnet_facts:
+        <<: *aws_info
+        filters:
+          vpc-id: "{{ vpc['vpcs'][0]['vpc_id'] }}"
+      register: subnet_info
+    
+    # Use jinja to select a random subnet from the list of subnet ids
+    - set_fact:
+        vpc_id: "{{ vpc['vpcs'][0]['vpc_id'] }}"
+        random_subnet: "{{ subnet_info.subnets|map(attribute='id')|list|random }}"
+
+    - name: deploy ec2 instance
+      ec2:
+        <<: *aws_info
+        key_name: "{{ key_name }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ ami }}"
+        wait: yes
+        count: 1
+        instance_tags:
+          epg: "{{ epg_1 }}"
+        vpc_subnet_id: "{{ random_subnet }}"
+        assign_public_ip: yes
