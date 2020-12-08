@@ -1,0 +1,12 @@
+[Unit]
+Description=Dummy Service
+After=multi-user.target
+Conflicts=getty@tty1.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python /home/ec2-user/mso-cloud-ansible/Backend/MQTT_DB_Plugin_Service/mqtt_db_plugin.py
+StandardInput=tty-force
+
+[Install]
+WantedBy=multi-user.target
