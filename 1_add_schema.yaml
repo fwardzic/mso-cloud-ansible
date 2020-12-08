@@ -89,7 +89,7 @@
         state: present
       delegate_to: localhost
 
-    - name: Associate site-1 template_onprem
+    - name: Associate on-prem site with template
       cisco.mso.mso_schema_site:
         <<: *mso_info
         schema: "{{ schema }}"

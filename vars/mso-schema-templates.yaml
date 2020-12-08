@@ -20,3 +20,6 @@ template_onprem: fab7-only
 sites: [ "DMZ-RCDN-Fabric7", "AWS-Site-2"]
 site_aws: AWS-Site-2
 site_onprem: DMZ-RCDN-Fabric7
+
+
+## ansible-vault encrypt_string --vault-password-file vaultPass 'yourpasswordtoencrypt' --name "password" > password.yaml
