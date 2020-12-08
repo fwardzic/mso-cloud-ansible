@@ -1,0 +1,57 @@
+---
+- name: deploy front ec2 instance
+  hosts: ec2-front
+
+  tasks:
+    - name: Install packages (yum)
+      yum:
+        name:
+          - python
+          - python-pip
+          - git
+        state: present
+      become: yes
+    
+    - name: Install the 'Development tools' package group
+      yum:
+        name: "@Development tools"
+        state: present
+      become: yes
+
+    - name: Install NGINX
+      shell: sudo amazon-linux-extras install -y nginx1
+      become: yes
+
+    - name: clone git repo
+      git:
+        clone:
+          repo: https://github.com/fwardzic/mso-cloud-ansible.git
+          version: main
+          accept_hostkey: yes
+      become: no
+
+    - name: pip install requirements
+      pip:
+        requirements: /home/ec2-user/mso-cloud-ansible/Frontend/Frontend_Service/requirements.txt
+      become: yes
+
+    - name: pip install uWSGI
+      pip:
+        name: uwsgi
+      become: yes
+    
+    - name: copy nginx
+      copy: 
+        src: /home/ec2-user/mso-cloud-ansible/Frontend/Nginx
+        dst: /etc/nginx
+      become: yes
+    
+    - name: run NGINX
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+      become: yes
+    
+    - name: run script
+      shell: 'uwsgi --socket 0.0.0.0:5061 --protocol=http -w frontend:app &'
