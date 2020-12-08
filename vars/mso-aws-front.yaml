@@ -21,6 +21,10 @@ contracts_epg_attachment:
     anp: 'front_ap'
     epg: 'front_epg'
     direction: 'provider'
+  - contract: 'restapi'
+    anp: 'front_ap'
+    epg: 'front_epg'
+    direction: 'consumer'
 contracts_igw_attachment:
   - contract: 'web_service'
     external_epg: 'front_igw'

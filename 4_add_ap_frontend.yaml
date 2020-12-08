@@ -20,7 +20,7 @@
           login_domain: "{{ login_domain }}"
           validate_certs: no
 
-    - name: WORKAROUND remove site from Template (only valid for new templates !!)
+    - name: remove site from Template
       cisco.mso.mso_schema_site:
         <<: *mso_info
         schema: "{{ schema }}"
@@ -118,18 +118,6 @@
         state: present
       delegate_to: localhost
     
-    - name: Add L3out
-      cisco.mso.mso_schema_template_l3out:
-        <<: *mso_info
-        schema: "{{ schema }}"
-        template: "{{ template_aws_2 }}"
-        l3out: dummy-l3out
-        vrf:
-          name: "{{ vrf }}"
-          template: "{{ template_aws_2 }}"
-        state: present
-      delegate_to: localhost
-
     - name: Add a selector external EPG (IGW)
       cisco.mso.mso_schema_site_external_epg_selector:
         <<: *mso_info
@@ -142,6 +130,18 @@
           - type: ip_address
             operator: equals
             value: 0.0.0.0/0
+        state: present
+      delegate_to: localhost
+
+    - name: Add L3out
+      cisco.mso.mso_schema_template_l3out:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_aws_2 }}"
+        l3out: dummy-l3out
+        vrf:
+          name: "{{ vrf }}"
+          template: "{{ template_aws_2 }}"
         state: present
       delegate_to: localhost
 

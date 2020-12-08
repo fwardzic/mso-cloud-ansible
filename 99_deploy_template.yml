@@ -18,7 +18,7 @@
           login_domain: "{{ login_domain }}"
           validate_certs: no
 
-    - name: Deploy a schema template
+    - name: Deploy a schema stretched template
       cisco.mso.mso_schema_template_deploy:
         <<: *mso_info
         schema: "{{ schema }}"
@@ -26,7 +26,7 @@
         state: deploy
       delegate_to: localhost
 
-    - name: Deploy a schema template
+    - name: Deploy a schema MQTT template
       cisco.mso.mso_schema_template_deploy:
         <<: *mso_info
         schema: "{{ schema }}"
@@ -34,11 +34,19 @@
         state: deploy
       delegate_to: localhost
     
-    - name: Deploy a schema template
+    - name: Deploy a schema FRONT template
       cisco.mso.mso_schema_template_deploy:
         <<: *mso_info
         schema: "{{ schema }}"
         template: "{{ template_aws_2 }}"
+        state: deploy
+      delegate_to: localhost
+
+    - name: Deploy a schema ONPREM template
+      cisco.mso.mso_schema_template_deploy:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_onprem }}"
         state: deploy
       delegate_to: localhost
 

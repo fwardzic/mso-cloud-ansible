@@ -28,8 +28,8 @@
         entry: "{{ item.name }}"
         ethertype: 'ip'
         ip_protocol: "{{ item.protocol }}"
-        destination_from: "{{ item.port }}"
-        destination_to: "{{ item.port }}"
+        destination_from: "{{ item.port | default(omit) }}"
+        destination_to: "{{ item.port | default(omit) }}"
         state: present
       loop: "{{ filters }}"
       delegate_to: localhost

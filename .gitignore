@@ -1,4 +1,5 @@
 *.retry
+.gitignore
 vaultPass
 key/fwardzic-ec2.pem
 vars/ec2-front.yaml

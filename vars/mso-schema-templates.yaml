@@ -17,6 +17,6 @@ template_stretched: stretched
 template_aws_1: aws-only-mqtt
 template_aws_2: aws-only-front
 template_onprem: fab7-only
-sites: [ "DMZ-RCDN-Fabric7", "Aws-Site-2"]
+sites: [ "DMZ-RCDN-Fabric7", "AWS-Site-2"]
 site_aws: AWS-Site-2
 site_onprem: DMZ-RCDN-Fabric7
