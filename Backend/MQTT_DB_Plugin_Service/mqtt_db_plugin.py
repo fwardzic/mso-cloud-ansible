@@ -16,7 +16,7 @@ import os
 SETTINGS_FILE_NAME = 'settings.ini'
 
 DB_PASSWORD = str(os.environ['DB_PASSWORD'])
-
+DB_HOST = str(os.environ['DB_HOST'])
 def get_Settings(Section_Name):
 	try:
 		config = ConfigParser.ConfigParser()
@@ -41,7 +41,7 @@ THING_PRIVATE_KEY = aws_settings['THING_PRIVATE_KEY']
 # Read DB Settings from settings.ini file
 db_settings = get_Settings('DB_SETTINGS')
 
-DB_HOST = db_settings['DB_HOST']
+#DB_HOST = db_settings['DB_HOST']
 DB_PORT = db_settings['DB_PORT']
 DB_NAME = db_settings['DB_NAME']
 DB_USER = db_settings['DB_USER']
