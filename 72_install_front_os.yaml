@@ -24,10 +24,8 @@
 
     - name: clone git repo
       git:
-        clone:
-          repo: https://github.com/fwardzic/mso-cloud-ansible.git
-          version: main
-          accept_hostkey: yes
+        repo: 'https://github.com/fwardzic/mso-cloud-ansible.git'
+        dest: /home/ec2-user/mso-cloud-ansible
       become: no
 
     - name: pip install requirements
@@ -42,8 +40,9 @@
     
     - name: copy nginx
       copy: 
-        src: /home/ec2-user/mso-cloud-ansible/Frontend/Nginx
-        dst: /etc/nginx
+        src: /home/ec2-user/mso-cloud-ansible/Frontend/Nginx/nginx.conf
+        dest: /etc/nginx/nginx.conf
+        remote_src: yes
       become: yes
     
     - name: run NGINX
@@ -54,4 +53,9 @@
       become: yes
     
     - name: run script
-      shell: 'uwsgi --socket 0.0.0.0:5061 --protocol=http -w frontend:app &'
+      shell: 'python frontend.py &'
+      args:
+        chdir: /home/ec2-user/mso-cloud-ansible/Frontend/Frontend_Service
+      environment: 
+        BACKEND_PORT: '5050'
+        BACKEND_HOST: '10.56.234.10'

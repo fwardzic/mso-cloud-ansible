@@ -7,6 +7,7 @@ Conflicts=getty@tty1.service
 Type=simple
 ExecStart=/usr/bin/python /home/ec2-user/mso-cloud-ansible/Backend/MQTT_DB_Plugin_Service/mqtt_db_plugin.py
 StandardInput=tty-force
+Environment="DB_IP=10.56.234.10" "DB_PASSWORD=cisco123"
 
 [Install]
 WantedBy=multi-user.target

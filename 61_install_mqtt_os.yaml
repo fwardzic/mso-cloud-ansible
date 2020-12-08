@@ -1,0 +1,51 @@
+---
+- name: deploy MQTT ec2 instance
+  hosts: ec2-mqtt
+
+  tasks:
+    - name: Install packages (yum)
+      yum:
+        name:
+          - python
+          - python-pip
+          - git
+        state: present
+      become: yes
+
+    - name: clone git repo
+      git:
+        repo: 'https://github.com/fwardzic/mso-cloud-ansible.git'
+        dest: /home/ec2-user/mso-cloud-ansible
+      become: no
+
+    - name: pip install requirements
+      pip:
+        requirements: /home/ec2-user/mso-cloud-ansible/Backend/MQTT_DB_Plugin_Service/requirements.txt
+      become: yes
+
+    - name: Install python script in directory
+      copy:
+        src: /home/ec2-user/mso-cloud-ansible/Backend/MQTT_DB_Plugin_Service/mqtt.service
+        remote_src: yes
+        dest: /lib/systemd/system/mqtt.service
+      become: yes
+        
+    - name: Reload the system configureation (registers new unit)
+      shell: systemctl daemon-reload
+      become: yes
+
+    - name: Start python based service
+      systemd:
+        name: mqtt.service
+        enabled: true
+        state: started
+      become: yes
+    
+    # - name: run script
+    #   command: 'python mqtt_db_plugin.py'
+    #   async: 30
+    #   args:
+    #     chdir: /home/ec2-user/mso-cloud-ansible/Backend/MQTT_DB_Plugin_Service
+    #   environment: 
+    #     DB_PASSWORD: 'cisco123'
+    #     DB_HOST: '10.56.234.10'
