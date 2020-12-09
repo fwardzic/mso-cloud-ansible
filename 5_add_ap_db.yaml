@@ -29,7 +29,7 @@
         state: present
       delegate_to: localhost
 
-    - name: Add a new BD
+    - name: Add a new BD DB
       cisco.mso.mso_schema_template_bd:
         <<: *mso_info
         schema: "{{ schema }}"
@@ -43,14 +43,41 @@
         state: present
       delegate_to: localhost
 
-    - name: Add a new subnet to a BD
-      cisco.mso.mso_schema_site_bd_subnet:
+    - name: Add a new BD REST APP
+      cisco.mso.mso_schema_template_bd:
         <<: *mso_info
         schema: "{{ schema }}"
-        site: "{{ site_onprem }}"
         template: "{{ template_onprem }}"
-        bd: 'db_bd'
+        bd: "{{ bd_2 }}"
+        layer2_stretch: 'no'
+        layer2_unknown_unicast: flood
+        layer3_multicast: 'no'
+        vrf:
+          name: "{{ vrf }}"
+        state: present
+      delegate_to: localhost
+
+    - name: Add a new subnet to a BD
+      cisco.mso.mso_schema_template_bd_subnet:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        # site: "{{ site_onprem }}"
+        template: "{{ template_onprem }}"
+        bd: "{{ bd_1 }}"
         subnet: "{{ subnet_1 }}"
+        scope: 'public'
+        shared: 'yes'
+        state: present
+      delegate_to: localhost
+
+    - name: Add a new subnet to a BD
+      cisco.mso.mso_schema_template_bd_subnet:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        # site: "{{ site_onprem }}"
+        template: "{{ template_onprem }}"
+        bd: "{{ bd_2 }}"
+        subnet: "{{ subnet_2 }}"
         scope: 'public'
         shared: 'yes'
         state: present
@@ -74,6 +101,35 @@
         epg: "{{ epg_1 }}"
         bd: 
           name: "{{ bd_1 }}"
+        vrf:
+          name: "{{ vrf }}"
+        state: present
+      delegate_to: localhost
+
+    - name: Attach contracts to EPG
+      cisco.mso.mso_schema_template_anp_epg_contract:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_onprem }}"
+        anp: "{{ item.anp }}"
+        epg: "{{ item.epg }}"
+        contract:
+          name: "{{ item.contract }}"
+          type: "{{ item.direction }}"
+          template: "{{ template_stretched }}"
+        state: present
+      loop: "{{ contracts_epg_attachment }}"
+      delegate_to: localhost
+
+    - name: Add a EPG
+      cisco.mso.mso_schema_template_anp_epg:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_onprem }}"
+        anp: "{{ anp_2 }}"
+        epg: "{{ epg_2 }}"
+        bd: 
+          name: "{{ bd_2 }}"
         vrf:
           name: "{{ vrf }}"
         state: present
