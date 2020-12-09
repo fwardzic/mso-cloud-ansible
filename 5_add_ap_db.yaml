@@ -6,7 +6,7 @@
   gather_facts: false
 
   vars_files:
-    - vars/mso-onprem-db.yaml
+    - vars/mso-onprem.yaml
     - vars/mso-schema-templates.yaml
     - vars/mso-aws-stretched.yaml
 
