@@ -1,8 +1,7 @@
-dmzmso/mso/login
+[mso]
+10.56.234.34/mso/login
 
 [ec2-front]
-18.233.152.160 ansible_user=ec2-user ansible_ssh_private_key_file=key/fwardzic-ec2.pem ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
 
 [ec2-mqtt]
-3.89.238.216 ansible_user=ec2-user ansible_ssh_private_key_file=key/fwardzic-ec2.pem ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
 
