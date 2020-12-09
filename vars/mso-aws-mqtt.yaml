@@ -1,5 +1,5 @@
 ---
-aws_region: 'us-east-1'
+aws_region: 'eu-north-1'
 tgw: 'TGW infra'
 vrf: 'vrf-mqtt'
 cidr: '10.56.235.192/27'
