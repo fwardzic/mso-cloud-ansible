@@ -10,23 +10,23 @@ subnet_2: '10.56.234.209/28'
 contracts_epg_attachment:
   - contract: 'sql'
     anp: 'HybridApp'
-    epg: 'db_epg'
+    epg: "{{ epg_1 }}"
     direction: 'provider'
   - contract: 'internet_access'
     anp: 'HybridApp'
-    epg: 'db_epg'
+    epg: "{{ epg_1 }}"
     direction: 'consumer'
   - contract: 'management'
     anp: 'HybridApp'
-    epg: 'db_epg'
+    epg: "{{ epg_1 }}"
     direction: 'provider'
   - contract: 'fwardzic-icmp'
     anp: 'HybridApp'
-    epg: 'db_epg'
+    epg: "{{ epg_1 }}"
     direction: 'provider'
   - contract: 'fwardzic-icmp'
     anp: 'HybridApp'
-    epg: 'db_epg'
+    epg: "{{ epg_1 }}"
     direction: 'consumer'
   - contract: 'sql'
     anp: 'HybridApp'
