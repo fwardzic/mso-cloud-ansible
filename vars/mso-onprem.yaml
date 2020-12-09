@@ -30,21 +30,21 @@ contracts_epg_attachment:
     direction: 'consumer'
   - contract: 'sql'
     anp: 'HybridApp'
-    epg: 'app_epg'
+    epg: "{{ epg_2 }}"
     direction: 'consumer'
   - contract: 'management'
     anp: 'HybridApp'
-    epg: 'app_epg'
+    epg: "{{ epg_2 }}"
     direction: 'provider'
   - contract: 'fwardzic-icmp'
     anp: 'HybridApp'
-    epg: 'app_epg'
+    epg: "{{ epg_2 }}"
     direction: 'provider'
   - contract: 'fwardzic-icmp'
     anp: 'HybridApp'
-    epg: 'app_epg'
+    epg: "{{ epg_2 }}"
     direction: 'consumer'
   - contract: 'restapi'
     anp: 'HybridApp'
-    epg: 'app_epg'
+    epg: "{{ epg_2 }}"
     direction: 'provider'
