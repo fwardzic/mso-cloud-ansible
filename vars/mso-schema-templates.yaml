@@ -10,16 +10,16 @@ password: !vault |
 login_domain: dmzrad
 protocol: https
 validate_certs: no
-host: dmzmso
-tenant: fwardzic-1
-schema: fwardzic-3
+host: 10.56.234.34
+tenant: tn_TNSE_AWS_180081511176
+schema: JPA-HYBRIDAPP
 template_stretched: stretched
-template_aws_1: aws-only-mqtt
-template_aws_2: aws-only-front
-template_onprem: fab7-only
-sites: [ "DMZ-RCDN-Fabric7", "AWS-Site-2"]
-site_aws: AWS-Site-2
-site_onprem: DMZ-RCDN-Fabric7
+template_aws_1: jpa-aws-mqtt
+template_aws_2: jpa-aws-front
+template_onprem: jpa-site-2
+sites: [ "lab2", "cloud-apic" ]
+site_aws: cloud-apic
+site_onprem: lab2
 
 
 ## ansible-vault encrypt_string --vault-password-file vaultPass 'yourpasswordtoencrypt' --name "password" > password.yaml
