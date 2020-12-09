@@ -62,7 +62,7 @@
         cidr: "{{ cidr }}"
         subnet: "{{ item.subnet }}"
         zone: "{{ item.zone }}"
-        vgw: 'yes'
+        vgw: 'no'
         state: present
       loop: "{{ subnet_list }}"
       delegate_to: localhost
