@@ -61,7 +61,7 @@
         region: "{{ aws_region }}"
         cidr: "{{ cidr }}"
         subnet: "{{ item.subnet }}"
-        vgw: 'yes'
+        vgw: 'no'
         zone: "{{ item.zone }}"
         state: present
       loop: "{{ subnet_list }}"

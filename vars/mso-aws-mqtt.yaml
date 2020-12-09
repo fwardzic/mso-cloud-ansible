@@ -1,6 +1,6 @@
 ---
 aws_region: 'eu-north-1'
-tgw: 'TGW infra'
+tgw: 'stockholm-hub1'
 vrf: 'vrf-mqtt'
 cidr: '10.56.235.192/27'
 subnet_list:
