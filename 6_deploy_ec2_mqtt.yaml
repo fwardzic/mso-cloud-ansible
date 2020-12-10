@@ -15,9 +15,19 @@
           aws_secret_key: "{{ access_key }}"
           region: "{{ aws_region }}"
 
+    - name: assume sts role
+      community.aws.sts_assume_role:
+        <<: *aws_info
+        role_arn: "arn:aws:iam::180081511176:role/PowerUserRole"
+        role_session_name: "thc-tenant"
+      register: assumed_role
+
     - name: Obtain default VPC information
       ec2_vpc_net_info:
         <<: *aws_info
+        aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
+        aws_secret_key: "{{ assumed_role.sts_creds.secret_key }}"
+        security_token: "{{ assumed_role.sts_creds.session_token }}"
         filters:
           "cidr": "{{ cidr }}"
       register: vpc
