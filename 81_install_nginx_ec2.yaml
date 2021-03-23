@@ -20,6 +20,7 @@
       git:
         repo: 'https://github.com/fwardzic/mso-cloud-ansible.git'
         dest: /home/ec2-user/mso-cloud-ansible
+        version: demo-krk-lab
       become: no
     
     - name: copy nginx config files

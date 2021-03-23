@@ -1,0 +1,16 @@
+---
+- name: deploy front ec2 instance
+  hosts: localhost
+  connection: local
+
+  vars_files:
+    - vars/ec2-nginx.yaml
+
+  vars:
+    aws_region: 'us-east-1'
+
+  tasks:
+    - include_tasks: 8_deploy_vpc_ec2_loop.yaml
+      loop: 
+        - { cidr: '10.56.235.128/27', epg_tag: 'JPA-WEB1-EPG'}
+        - { cidr: '10.56.235.160/27', epg_tag: 'JPA-WEB2-EPG'}

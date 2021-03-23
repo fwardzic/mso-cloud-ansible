@@ -1,0 +1,8 @@
+---
+aws_region: 'us-east-1'
+cidr_list:
+  - cidr: '10.56.235.128/27'
+  - cidr: '10.56.235.160/27'
+epgs:
+  - epg_tag: 'JPA-WEB1-EPG'
+  - epg_tag: 'JPA-WEB2-EPG'
