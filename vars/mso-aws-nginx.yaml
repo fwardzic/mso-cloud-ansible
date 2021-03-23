@@ -1,13 +1,13 @@
 ---
-aws_region: 'eu-north-1'
+aws_region: 'us-east-1'
 tgw: 'stockholm-hub1'
-vrf: 'vrf-front'
-cidr: '10.56.235.224/27'
+vrf: 'vrf-nginx'
+cidr: '10.56.234.192/26'
 subnet_list:
-  - { subnet: '10.56.235.224/28', zone: 'eu-north-1a' }
-  - { subnet: '10.56.235.240/28', zone: 'eu-north-1b' }
-anp_1: 'front_ap'
-epg_1: 'front_epg'
+  - { subnet: '10.56.234.224/28', zone: 'us-east-1' }
+  - { subnet: '10.56.234.240/28', zone: 'us-east-1' }
+anp_1: 'nginx_ap'
+epg_1: 'JPA-WEB4-EPG'
 contracts_epg_attachment:
   - contract: 'web_service'
     anp: 'front_ap'
