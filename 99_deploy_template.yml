@@ -1,6 +1,6 @@
 ---
 
-- name: Deploy template to APICś
+- name: Deploy template to APIC
   hosts: mso
   connection: local
   gather_facts: false

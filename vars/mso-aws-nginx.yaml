@@ -1,0 +1,38 @@
+---
+aws_region: 'eu-north-1'
+tgw: 'stockholm-hub1'
+vrf: 'vrf-front'
+cidr: '10.56.235.224/27'
+subnet_list:
+  - { subnet: '10.56.235.224/28', zone: 'eu-north-1a' }
+  - { subnet: '10.56.235.240/28', zone: 'eu-north-1b' }
+anp_1: 'front_ap'
+epg_1: 'front_epg'
+contracts_epg_attachment:
+  - contract: 'web_service'
+    anp: 'front_ap'
+    epg: 'front_epg'
+    direction: 'provider'
+  - contract: 'internet_access'
+    anp: 'front_ap'
+    epg: 'front_epg'
+    direction: 'consumer'
+  - contract: 'management'
+    anp: 'front_ap'
+    epg: 'front_epg'
+    direction: 'provider'
+  - contract: 'restapi'
+    anp: 'front_ap'
+    epg: 'front_epg'
+    direction: 'consumer'
+contracts_igw_attachment:
+  - contract: 'web_service'
+    external_epg: 'front_igw'
+    direction: 'consumer'
+  - contract: 'internet_access'
+    external_epg: 'front_igw'
+    direction: 'provider'
+  - contract: 'management'
+    external_epg: 'front_igw'
+    direction: 'consumer'
+igw_1: 'front_igw'

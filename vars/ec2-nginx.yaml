@@ -1,0 +1,5 @@
+---
+key_name: 'filip-prv'
+ami: 'ami-0533f2ba8a1995cf9'
+instance_type: 't2.micro'
+name: 'nginx'
