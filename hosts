@@ -1,9 +1,5 @@
 [mso]
-10.56.234.34/mso/login
-
-[ec2-front]
-
-[ec2-mqtt]
+172.18.0.15
 
 [ec2-nginx]
 54.82.172.108 ansible_user=ec2-user ansible_ssh_private_key_file=~/.ssh/filip-prv.pem ansible_ssh_extra_args='-o StrictHostKeyChecking=no'

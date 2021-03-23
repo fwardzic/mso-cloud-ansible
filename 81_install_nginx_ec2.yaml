@@ -1,6 +1,6 @@
 ---
 - name: deploy nginx ec2 instance
-  hosts: ec2-front
+  hosts: ec2-nginx
 
   tasks:
     - name: Install packages (yum)
@@ -12,12 +12,6 @@
         state: present
       become: yes
     
-    - name: Install the 'Development tools' package group
-      yum:
-        name: "@Development tools"
-        state: present
-      become: yes
-
     - name: Install NGINX
       shell: sudo amazon-linux-extras install -y nginx1
       become: yes
