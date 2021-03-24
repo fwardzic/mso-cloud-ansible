@@ -11,6 +11,13 @@
         state: present
       become: yes
     
+    - name: " Starting and Enabling Docker service"
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      become: yes
+
     - name: Install NGINX
       shell: sudo amazon-linux-extras install -y nginx1
       become: yes
@@ -30,7 +37,7 @@
       become: yes
       
     - name: run frontend
-      shell: 'docker run -d -p 5061:5061 --env BACKEND_PORT=5050 --env BACKEND_HOST=10.56.234.10 eu.gcr.io/fwardz001-poc-ci1s/frontend_server:latest'
+      shell: 'docker run -d -p 5061:5061 --env BACKEND_PORT=5050 --env BACKEND_HOST=10.56.233.194 eu.gcr.io/fwardz001-poc-ci1s/frontend_server:latest'
       become: yes
 
     # - name: run frontend

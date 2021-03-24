@@ -6,11 +6,8 @@
   vars_files:
     - vars/ec2-nginx.yaml
 
-  vars:
-    aws_region: 'us-east-1'
-
   tasks:
     - include_tasks: 8_deploy_vpc_ec2_loop.yaml
       loop: 
-        - { cidr: '10.56.235.128/27', epg_tag: 'JPA-WEB1-EPG'}
-        - { cidr: '10.56.235.160/27', epg_tag: 'JPA-WEB2-EPG'}
+        - { cidr: '10.56.235.128/27', epg_tag: 'JPA-WEB1-EPG', aws_region: 'us-east-1', ami: 'ami-0533f2ba8a1995cf9'}
+        - { cidr: '10.56.120.0/24', epg_tag: 'JPA-WEB2-EPG',  aws_region: 'eu-central-1', ami: 'ami-064718721588ff974'}

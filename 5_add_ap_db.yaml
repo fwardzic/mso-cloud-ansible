@@ -29,7 +29,7 @@
         state: present
       delegate_to: localhost
 
-    - name: Add a new BD DB
+    - name: Add a new DB Bridge Domain
       cisco.mso.mso_schema_template_bd:
         <<: *mso_info
         schema: "{{ schema }}"
@@ -57,31 +57,31 @@
         state: present
       delegate_to: localhost
 
-    - name: Add a new subnet to a BD
-      cisco.mso.mso_schema_site_bd_subnet:
-        <<: *mso_info
-        schema: "{{ schema }}"
-        site: "{{ site_onprem }}"
-        template: "{{ template_onprem }}"
-        bd: "{{ bd_1 }}"
-        subnet: "{{ subnet_1 }}"
-        scope: 'public'
-        shared: 'yes'
-        state: present
-      delegate_to: localhost
+    # - name: Add a new subnet to a BD
+    #   cisco.mso.mso_schema_site_bd_subnet:
+    #     <<: *mso_info
+    #     schema: "{{ schema }}"
+    #     template: "{{ template_onprem }}"
+    #     site: "{{ site_onprem }}"
+    #     bd: "{{ bd_1 }}"
+    #     subnet: "{{ subnet_1 }}"
+    #     scope: 'public'
+    #     shared: 'yes'
+    #     state: present
+    #   delegate_to: localhost
 
-    - name: Add a new subnet to a BD
-      cisco.mso.mso_schema_site_bd_subnet:
-        <<: *mso_info
-        schema: "{{ schema }}"
-        site: "{{ site_onprem }}"
-        template: "{{ template_onprem }}"
-        bd: "{{ bd_2 }}"
-        subnet: "{{ subnet_2 }}"
-        scope: 'public'
-        shared: 'yes'
-        state: present
-      delegate_to: localhost
+    # - name: Add a new subnet to a BD
+    #   cisco.mso.mso_schema_site_bd_subnet:
+    #     <<: *mso_info
+    #     schema: "{{ schema }}"
+    #     template: "{{ template_onprem }}"
+    #     site: "{{ site_onprem }}"
+    #     bd: "{{ bd_2 }}"
+    #     subnet: "{{ subnet_2 }}"
+    #     scope: 'public'
+    #     shared: 'yes'
+    #     state: present
+    #   delegate_to: localhost
 
     - name: Add a Application Profile
       cisco.mso.mso_schema_template_anp:
@@ -117,6 +117,36 @@
           name: "{{ bd_2 }}"
         vrf:
           name: "{{ vrf }}"
+        state: present
+      delegate_to: localhost
+
+    - name: Add a new domain to a site EPG
+      cisco.mso.mso_schema_site_anp_epg_domain:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_onprem }}"
+        anp: "{{ anp_1 }}"
+        epg: "{{ epg_1 }}"
+        site: "{{ site_onprem }}"
+        domain_association_type: vmmDomain
+        domain_profile: 'ACI-DMZ-VDS02'
+        deployment_immediacy: lazy
+        resolution_immediacy: lazy
+        state: present
+      delegate_to: localhost
+
+    - name: Add a new domain to a site EPG
+      cisco.mso.mso_schema_site_anp_epg_domain:
+        <<: *mso_info
+        schema: "{{ schema }}"
+        template: "{{ template_onprem }}"
+        anp: "{{ anp_1 }}"
+        epg: "{{ epg_2 }}"
+        site: "{{ site_onprem }}"
+        domain_association_type: vmmDomain
+        domain_profile: 'ACI-DMZ-VDS02'
+        deployment_immediacy: lazy
+        resolution_immediacy: lazy
         state: present
       delegate_to: localhost
 

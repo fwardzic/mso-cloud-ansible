@@ -3,7 +3,7 @@
         mso_info: &aws_info
           aws_access_key: "{{ aws_access_id }}"
           aws_secret_key: "{{ aws_access_key }}"
-          region: "{{ aws_region }}"
+          region: "{{ item.aws_region }}"
 
     - name: Obtain default VPC information
       ec2_vpc_net_info:
@@ -29,7 +29,7 @@
         <<: *aws_info
         key_name: "{{ key_name }}"
         instance_type: "{{ instance_type }}"
-        image: "{{ ami }}"
+        image: "{{ item.ami }}"
         wait: yes
         count: 1
         instance_tags:
