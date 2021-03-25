@@ -7,7 +7,9 @@
   tasks:
     - name: Install packages (yum)
       yum:
-        name: docker
+        name: 
+        - docker
+        - git
         state: present
       become: yes
     
@@ -22,6 +24,12 @@
       shell: sudo amazon-linux-extras install -y nginx1
       become: yes
     
+    - name: clone git repo
+      git:
+        repo: 'https://github.com/fwardzic/mso-cloud-ansible.git'
+        dest: /home/ec2-user/mso-cloud-ansible
+      become: no
+      
     - name: copy nginx
       copy: 
         src: /home/ec2-user/mso-cloud-ansible/Frontend/Nginx/nginx.conf
