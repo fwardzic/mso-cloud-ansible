@@ -1,13 +1,13 @@
 ---
 aws_region: 'us-east-1'
-tgw: 'stockholm-hub1'
+tgw: 'tgw-us-east-1'
 vrf: 'vrf-nginx'
 cidr: '10.56.234.192/26'
 subnet_list:
   - { subnet: '10.56.234.224/28', zone: 'us-east-1' }
   - { subnet: '10.56.234.240/28', zone: 'us-east-1' }
 anp_1: 'nginx_ap'
-epg_1: 'JPA-WEB4-EPG'
+epg_1: 'web_epg'
 contracts_epg_attachment:
   - contract: 'web_service'
     anp: 'front_ap'

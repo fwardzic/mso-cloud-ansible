@@ -1,10 +1,10 @@
 ---
 vrf: 'vrf-db'
 anp_1: 'HybridApp'
-epg_1: 'jpa_db_epg'
-epg_2: 'jpa_app_epg'
-bd_1: 'jpa_db_bd'
-bd_2: 'jpa_app_bd'
+epg_1: 'db_epg'
+epg_2: 'app_epg'
+bd_1: 'db_bd'
+bd_2: 'app_bd'
 subnet_1: '10.56.233.193/28'
 subnet_2: '10.56.233.209/28'
 contracts_epg_attachment:
